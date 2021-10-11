@@ -2,18 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
-import Modal from "react-modal";
 
-import PreviewBoard from "@Layout/PreviewBoard";
-import PreviewProfile from "../../layout/PreviewProfile";
-import ErrorModal from "../../components/Modal/ErrorModal";
-
-import { COLORS } from "@Component/Colors";
+import PreviewBoard from "layout/PreviewBoard";
+import { COLORS } from "../../components/Colors";
 import rightVector from "../../assets/vector/arrow.svg";
 import searchIcon from "../../assets/nav/search.svg";
-
-import { formatDate } from "@Hooks/getBoardInfo";
-import { customStyles } from "@Component/modalOption";
+import PreviewProfile from "layout/PreviewProfile";
+import { formatDate } from "hooks/getBoardInfo";
 
 const SearchWrapper = styled.div`
   padding-top: 72px;
@@ -96,7 +91,6 @@ const Index = () => {
   const [keyword, setKeyword] = useState("");
   const [isGuideOn, setIsGuideOn] = useState(true);
   const [resultList, setResultList] = useState([]);
-  const [isOpen, setIsOpen] = useState(false);
 
   const onClickBack = () => {
     history.goBack();
@@ -107,29 +101,19 @@ const Index = () => {
   };
 
   const onClickSearch = async () => {
-    if (keyword.length < 2) {
-      setIsOpen(true);
+    setIsGuideOn(false);
+    const result = await axios({
+      method: "POST",
+      url: "/api/board/search",
+      data: {
+        word: keyword,
+      },
+    });
+
+    if (result) {
+      setResultList(result.data.data);
     } else {
-      setIsGuideOn(false);
-      const result = await axios({
-        method: "POST",
-        url: "/api/board/search",
-        data: {
-          word: keyword,
-        },
-      });
-
-      if (result) {
-        setResultList(result.data.data);
-      } else {
-        alert("Server error");
-      }
-    }
-  };
-
-  const onKeyPress = (e) => {
-    if (e.key === "Enter") {
-      onClickSearch();
+      alert("Server error");
     }
   };
 
@@ -144,7 +128,6 @@ const Index = () => {
             value={keyword}
             onChange={onChangeKeyword}
             placeholder="글 제목, 내용, 해시태그"
-            onKeyPress={onKeyPress}
           />
           <button onClick={onClickSearch}>
             <img src={searchIcon} alt="검색어 초기화" />
@@ -182,18 +165,6 @@ const Index = () => {
           ))
         )}
       </div>
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={() => setIsOpen(false)}
-        contentLabel="검색 결과 조건 부족"
-        ariaHideApp={false}
-        style={customStyles}
-      >
-        <ErrorModal
-          text="검색어는 최소 2글자 이상 입력해주세요."
-          onClick={() => setIsOpen(false)}
-        />
-      </Modal>
     </SearchWrapper>
   );
 };

@@ -8,7 +8,7 @@ import BoardNavigation from "../../../layout/BoardNaviagtion";
 import PreviewBoard from "../../../layout/PreviewBoard";
 import WritePost from "../../../components/Button/WritePost";
 
-import { getCategory } from "@Hooks/getBoardInfo";
+import { getCategory } from "../../../hooks/getBoardInfo";
 
 const DetailWrapper = styled.div`
   padding-top: 48px;
@@ -37,11 +37,9 @@ const Index = ({ match }) => {
   const [boardList, setBoardList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const categoryNum = match.params.category;
-
   useEffect(() => {
     const categoryNum = match.params.category;
-    setTitle(getCategory(parseInt(categoryNum)));
+    setTitle(getCategory(categoryNum));
     const fetchData = async () => {
       const categoryNum = match.params.category;
       const result = await axios(`/api/board/${categoryNum}`);
@@ -76,11 +74,10 @@ const Index = ({ match }) => {
           </div>
         ))
       )}
-      {categoryNum !== "7" && (
-        <div className="fixed-button">
-          <WritePost categoryId={match.params.category} />
-        </div>
-      )}
+
+      <div className="fixed-button">
+        <WritePost />
+      </div>
     </DetailWrapper>
   );
 };

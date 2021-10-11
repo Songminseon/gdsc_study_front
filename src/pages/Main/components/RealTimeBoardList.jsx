@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
-import { formatDate, getCategory } from "@Hooks/getBoardInfo";
+import { formatDate, getCategory } from "hooks/getBoardInfo";
 
 import PreviewProfile from "../../../layout/PreviewProfile";
 import PreviewBoard from "../../../layout/PreviewBoard";
-import { COLORS } from "@Component/Colors";
+import { COLORS } from "components/Colors";
 
 const BoardWrapper = styled.div`
   margin: 8px 8px 0px 8px;

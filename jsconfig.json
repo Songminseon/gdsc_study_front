@@ -1,21 +1,8 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "module": "Commonjs",
-        "jsx": "react-jsx",
-        "lib": [
-          "dom",
-          "es6",
-          "es2017",
-          "esnext.asynciterable"
-        ],
-        "baseUrl": "."
+        "baseUrl": "src"
     },
     "include": [
         "src"
-    ],
-    "exclude": [
-        "node_modules"
-    ],
-    "extends": "./jsconfig.paths.json"
+    ]
 }

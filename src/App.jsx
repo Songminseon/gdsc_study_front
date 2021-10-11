@@ -21,8 +21,6 @@ import Edit from "./pages/Mypage/Edit";
 import Auth from "./pages/Mypage/Auth";
 import AuthDetail from "./pages/Mypage/AuthDetail";
 
-import NotFound from "@Pages/NotFound";
-
 const App = () => {
   return (
     <BrowserRouter>
@@ -37,7 +35,7 @@ const App = () => {
         <Route exact path="/board" component={Board} />
         <Route exact path="/board/list/:category" component={BoardCategory} />
         <Route exact path="/board/detail/:id" component={BoardDetail} />
-        <Route exact path="/board/post/:id" component={BoardPost} />
+        <Route exact path="/board/post" component={BoardPost} />
 
         <Route exact path="/message" component={Messsage} />
         <Route exact path="/message/:pk" component={MessageDetail} />
@@ -46,8 +44,6 @@ const App = () => {
         <Route exact path="/mypage/edit" component={Edit} />
         <Route exact path="/mypage/auth" component={Auth} />
         <Route exact path="/mypage/auth/detail" component={AuthDetail} />
-
-        <Route path="*" component={NotFound} />
       </Switch>
     </BrowserRouter>
   );
