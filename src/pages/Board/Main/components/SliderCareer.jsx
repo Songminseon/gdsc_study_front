@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import ShowMore from "../../../../components/Button/ShowMore";
+import axios from "axios";
 
+import ShowMore from "../../../../components/Button/ShowMore";
 import PreviewBoard from "../../../../layout/PreviewBoard";
+import { formatDate } from "@Hooks/getBoardInfo";
+import { COLORS } from "@Component/Colors";
 
 const SliderWrapper = styled.div`
   h2 {
@@ -11,6 +14,15 @@ const SliderWrapper = styled.div`
 
   .board-container {
     margin: 9px 8px 0px 8px;
+  }
+
+  .no-result {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: ${COLORS.grey_600};
+    font-weight: 700;
   }
 
   .top-wrapper {
@@ -30,6 +42,21 @@ const SliderWrapper = styled.div`
 `;
 
 const SliderCareer = () => {
+  const [careerList, setCareerList] = useState([]);
+  const [hotList, setHotList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios(`/api/board/main/filter?category=${8}&hot=0`);
+      const result2 = await axios(`/api/board/main/filter?category=${8}&hot=1`);
+
+      setCareerList(result.data.data);
+      setHotList(result2.data.data);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <SliderWrapper>
       <div className="board-wrapper board-container">
@@ -37,29 +64,23 @@ const SliderCareer = () => {
           <div>
             <h2>인기 게시물</h2>
           </div>
-          <ShowMore to="/board" />
         </div>
         <div className="realtime-board-wrapper">
-          <div className="item-wrapper">
-            <PreviewBoard
-              boardId={1}
-              title="인기게시물"
-              contents="어어어어"
-              category="1212"
-              like={1}
-              comments={2}
-            />
-          </div>
-          <div className="item-wrapper">
-            <PreviewBoard
-              boardId={10}
-              title="인기게시물"
-              contents="어어어어"
-              category="1212"
-              like={1}
-              comments={2}
-            />
-          </div>
+          {hotList.length === 0 ? (
+            <p className="no-result">아직 인기게시물이 없어요.</p>
+          ) : (
+            hotList.map((item) => (
+              <div className="item-wrapper">
+                <PreviewBoard
+                  boardId={item.id}
+                  title={item.title}
+                  category={formatDate(item.created_at)}
+                  like={item.like_num}
+                  comments={item.comments}
+                />
+              </div>
+            ))
+          )}
         </div>
       </div>
 
@@ -71,26 +92,17 @@ const SliderCareer = () => {
           <ShowMore to="/board/list/8" />
         </div>
         <div className="realtime-board-wrapper">
-          <div className="item-wrapper">
-            <PreviewBoard
-              boardId={13}
-              title="인기게시물"
-              contents="어어어어"
-              category="1212"
-              like={1}
-              comments={2}
-            />
-          </div>
-          <div className="item-wrapper">
-            <PreviewBoard
-              boardId={21}
-              title="인기게시물"
-              contents="어어어어"
-              category="1212"
-              like={1}
-              comments={2}
-            />
-          </div>
+          {careerList.map((item) => (
+            <div className="item-wrapper">
+              <PreviewBoard
+                boardId={item.id}
+                title={item.title}
+                category={formatDate(item.created_at)}
+                like={item.like_num}
+                comments={item.comments}
+              />
+            </div>
+          ))}
         </div>
       </div>
     </SliderWrapper>
