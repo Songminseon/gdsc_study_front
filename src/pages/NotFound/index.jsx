@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-import { COLORS } from "@Component/Colors";
+import { COLORS } from "../../components/Colors";
 
 const ErrorWrapper = styled.div`
   width: 100%;

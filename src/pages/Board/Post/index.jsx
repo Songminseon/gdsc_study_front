@@ -4,12 +4,12 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
 
-import { COLORS } from "@Component/Colors";
-import xVector from "@Assets/vector/xVector.svg";
-import cameraIcon from "@Assets/icon/camera.svg";
-import checkIcon from "@Assets/vector/checked.svg";
-import ErrorModal from "@Component/Modal/ErrorModal";
-import { customStyles } from "@Component/modalOption";
+import { COLORS } from "../../../components/Colors";
+import xVector from "../../../assets/vector/xVector.svg";
+import cameraIcon from "../../../assets//icon/camera.svg";
+import checkIcon from "../../../assets//vector/checked.svg";
+import ErrorModal from "../../../components/Modal/ErrorModal";
+import { customStyles } from "../../../components/modalOption";
 
 const PostWrapper = styled.div`
   padding-top: 48px;

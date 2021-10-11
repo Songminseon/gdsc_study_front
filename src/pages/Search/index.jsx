@@ -4,16 +4,16 @@ import { useHistory } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
 
-import PreviewBoard from "@Layout/PreviewBoard";
+import PreviewBoard from "../../layout/PreviewBoard";
 import PreviewProfile from "../../layout/PreviewProfile";
 import ErrorModal from "../../components/Modal/ErrorModal";
 
-import { COLORS } from "@Component/Colors";
+import { COLORS } from "../../components/Colors";
 import rightVector from "../../assets/vector/arrow.svg";
 import searchIcon from "../../assets/nav/search.svg";
 
-import { formatDate } from "@Hooks/getBoardInfo";
-import { customStyles } from "@Component/modalOption";
+import { formatDate } from "../../hooks/getBoardInfo";
+import { customStyles } from "../../components/modalOption";
 
 const SearchWrapper = styled.div`
   padding-top: 72px;

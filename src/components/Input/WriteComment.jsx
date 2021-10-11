@@ -3,11 +3,11 @@ import styled from "styled-components";
 import axios from "axios";
 import Modal from "react-modal";
 
-import ErrorModal from "@Component/Modal/ErrorModal";
+import ErrorModal from "../../components/Modal/ErrorModal";
 import { COLORS } from "../Colors";
 import checkIcon from "../../assets/vector/checked.svg";
 import sendIcon from "../../assets/icon/send.png";
-import { customStyles } from "@Component/modalOption";
+import { customStyles } from "../../components/modalOption";
 
 const CommentInputWrapper = styled.div`
   width: 100%;

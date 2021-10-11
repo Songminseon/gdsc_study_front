@@ -21,7 +21,7 @@ import Edit from "./pages/Mypage/Edit";
 import Auth from "./pages/Mypage/Auth";
 import AuthDetail from "./pages/Mypage/AuthDetail";
 
-import NotFound from "@Pages/NotFound";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   return (

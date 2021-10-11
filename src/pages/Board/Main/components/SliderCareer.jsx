@@ -4,8 +4,8 @@ import axios from "axios";
 
 import ShowMore from "../../../../components/Button/ShowMore";
 import PreviewBoard from "../../../../layout/PreviewBoard";
-import { formatDate } from "@Hooks/getBoardInfo";
-import { COLORS } from "@Component/Colors";
+import { formatDate } from "../../../../hooks/getBoardInfo";
+import { COLORS } from "../../../../components/Colors";
 
 const SliderWrapper = styled.div`
   h2 {
