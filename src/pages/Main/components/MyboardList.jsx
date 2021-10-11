@@ -3,11 +3,11 @@ import styled from "styled-components";
 import axios from "axios";
 import ClipLoader from "react-spinners/ClipLoader";
 
-import { COLORS } from "components/Colors";
+import { COLORS } from "@Component/Colors";
 import ShowMore from "../../../components/Button/ShowMore";
 import MyboardItem from "./MyboardItem";
-import { getCategory, getPinName } from "hooks/getBoardInfo";
-import { isRecentBoard } from "hooks/getBoardInfo";
+import { getCategory, getPinName } from "@Hooks/getBoardInfo";
+import { isRecentBoard } from "@Hooks/getBoardInfo";
 
 const MyboardWrapper = styled.div`
   margin: 24px 8px 0px 8px;

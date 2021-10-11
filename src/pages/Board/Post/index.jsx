@@ -1,11 +1,15 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
+import Modal from "react-modal";
 
-import { COLORS } from "../../../components/Colors";
-import xVector from "../../../assets/vector/xVector.svg";
-import cameraIcon from "../../../assets/icon/camera.svg";
-import checkIcon from "../../../assets/vector/checked.svg";
+import { COLORS } from "@Component/Colors";
+import xVector from "@Assets/vector/xVector.svg";
+import cameraIcon from "@Assets/icon/camera.svg";
+import checkIcon from "@Assets/vector/checked.svg";
+import ErrorModal from "@Component/Modal/ErrorModal";
+import { customStyles } from "@Component/modalOption";
 
 const PostWrapper = styled.div`
   padding-top: 48px;
@@ -43,7 +47,21 @@ const PostWrapper = styled.div`
     margin-right: 16px;
   }
 
-  .post-contents {
+  .post-title {
+    width: calc(100% - 32px);
+    padding: 16px 0px;
+    margin: 0px 16px;
+    border-bottom: 1px solid ${COLORS.grey_500};
+    font-size: 18px;
+
+    &::placeholder {
+      font-weight: 700;
+      font-size: 18px;
+      color: ${COLORS.grey_500};
+    }
+  }
+
+  .post-content {
     width: calc(100% - 32px);
     margin: 16px;
     height: auto;
@@ -71,7 +89,8 @@ const PostWrapper = styled.div`
     position: relative;
     width: 10px;
     height: 10px;
-    background: url(${checkIcon});
+    border: 1px solid ${COLORS.grey_500};
+    border-radius: 10px;
     background-size: contain;
   }
 
@@ -90,11 +109,17 @@ const PostWrapper = styled.div`
   }
 `;
 
-const Index = () => {
+const Index = ({ match }) => {
   const history = useHistory();
+
+  const [isOpen, setIsOpen] = useState(false);
+  const [errorText, setErrorText] = useState("");
 
   const [imgUrl, setImgUrl] = useState("");
   const [isSecret, setIsSecret] = useState(false);
+
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   const onSelectFile = (e) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -112,6 +137,14 @@ const Index = () => {
     }
   };
 
+  const onChangeTitle = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const onChangeContent = (e) => {
+    setContent(e.target.value);
+  };
+
   const autoGrow = (e) => {
     e.target.style.height = "21px";
     e.target.style.height = `${e.target.scrollHeight}px`;
@@ -121,8 +154,37 @@ const Index = () => {
     history.goBack();
   };
 
-  const writePost = () => {
-    alert("글 작성 완료");
+  const writePost = async () => {
+    const categoryId = match.params.id;
+
+    if (!categoryId || categoryId === "7") {
+      setIsOpen(true);
+      setErrorText("비정상적인 접근입니다.");
+    } else {
+      if (!title) {
+        setIsOpen(true);
+        setErrorText("제목을 채워주세요.");
+      } else if (!content) {
+        setIsOpen(true);
+        setErrorText("내용을 채워주세요.");
+      } else {
+        const result = await axios({
+          method: "POST",
+          url: "/api/board",
+          data: {
+            category_id: categoryId,
+            title: title,
+            content: content,
+            is_secret: isSecret,
+          },
+        });
+        if (result) {
+          history.replace(`/board/list/${categoryId}`);
+        } else {
+          alert("server error");
+        }
+      }
+    }
   };
 
   return (
@@ -144,8 +206,17 @@ const Index = () => {
           완료
         </button>
       </div>
+      <input
+        className="post-title"
+        type="text"
+        value={title}
+        onChange={onChangeTitle}
+        placeholder="제목"
+      />
       <textarea
-        className="post-contents"
+        className="post-content"
+        value={content}
+        onChange={onChangeContent}
         placeholder="내용을 입력하세요."
         spellCheck={false}
         onInput={autoGrow}
@@ -174,6 +245,15 @@ const Index = () => {
           </label>
         </div>
       </div>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={() => setIsOpen(false)}
+        contentLabel="글작성 에러"
+        ariaHideApp={false}
+        style={customStyles}
+      >
+        <ErrorModal text={errorText} onClick={() => setIsOpen(false)} />
+      </Modal>
     </PostWrapper>
   );
 };

@@ -92,7 +92,6 @@ const Index = () => {
     const result = await axios({
       method: "POST",
       url: "/api/user/login",
-      withCredentials: true,
       data: {
         user_id: userId,
         password: password,

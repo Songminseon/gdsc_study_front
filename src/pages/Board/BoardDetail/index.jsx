@@ -8,10 +8,10 @@ import BoardDetail from "../../../layout/BoardDetail";
 import Comment from "../../../layout/Comment";
 import WriteComment from "../../../components/Input/WriteComment";
 
-import { formatDate } from "../../../hooks/getBoardInfo";
+import { formatDate } from "@Hooks/getBoardInfo";
 import { COLORS } from "../../../components/Colors";
-import ErrorModal from "components/Modal/ErrorModal";
-import { customStyles } from "components/modalOption";
+import ErrorModal from "@Component/Modal/ErrorModal";
+import { customStyles } from "@Component/modalOption";
 
 const DetailWrapper = styled.div`
   padding-bottom: 52px;
@@ -142,7 +142,7 @@ const Index = ({ match }) => {
         ))}
       </div>
       <div className="write-comment-container">
-        <WriteComment />
+        <WriteComment boardId={match.params.id} />
       </div>
       <Modal
         isOpen={isOpen}

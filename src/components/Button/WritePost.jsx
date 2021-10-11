@@ -26,11 +26,11 @@ const ButtonWrapper = styled.button`
   }
 `;
 
-const WritePost = () => {
+const WritePost = ({ categoryId }) => {
   const history = useHistory();
 
   const onClickBtn = () => {
-    history.push("/board/post");
+    history.push(`/board/post/${categoryId}`);
   };
 
   return (
