@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import UnderLine from "../../components/Text/UnderLine";
-import BottomNavigaiton from "../../layout/BottomNavigation";
+import UnderLine from "@Component/Text/UnderLine";
+import BottomNavigaiton from "@Layout/BottomNavigation";
 
-import { dummyMessage } from "../../components/dummyData";
+import { dummyMessage } from "@Component/dummyData";
 import MessageItem from "./components/MessageItem";
 
 const AlarmWrapper = styled.div`

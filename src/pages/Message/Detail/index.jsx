@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { dummyDetailMessage } from "../../components/dummyData";
+import { dummyDetailMessage } from "@Component/dummyData";
 
-import ActionBar from "../../layout/ActionBar";
+import ActionBar from "@Layout/ActionBar";
 import MessageDetailItem from "./components/MessageDetailItem";
 
 const MessageWrapper = styled.div``;

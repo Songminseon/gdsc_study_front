@@ -13,15 +13,16 @@ import BoardCategory from "./pages/Board/BoardCategory";
 import BoardDetail from "./pages/Board/BoardDetail";
 import BoardPost from "./pages/Board/Post";
 
-import Messsage from "./pages/Message";
-import MessageDetail from "./pages/MessageDetail";
+import Messsage from "@Pages/Message/Main";
+import MessageDetail from "@Pages/Message/Detail";
+import MessagePost from "@Pages/Message/Post";
 
 import Mypage from "./pages/Mypage/Main";
 import Edit from "./pages/Mypage/Edit";
 import Auth from "./pages/Mypage/Auth";
 import AuthDetail from "./pages/Mypage/AuthDetail";
 
-import NotFound from "./pages/NotFound";
+import NotFound from "@Pages/NotFound";
 
 const App = () => {
   return (
@@ -40,7 +41,8 @@ const App = () => {
         <Route exact path="/board/post/:id" component={BoardPost} />
 
         <Route exact path="/message" component={Messsage} />
-        <Route exact path="/message/:pk" component={MessageDetail} />
+        <Route exact path="/message/detail/:pk" component={MessageDetail} />
+        <Route exact path="/message/send" component={MessagePost} />
 
         <Route exact path="/mypage" component={Mypage} />
         <Route exact path="/mypage/edit" component={Edit} />

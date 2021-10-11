@@ -38,9 +38,8 @@ const PostWrapper = styled.div`
   .confirm-button {
     color: white;
     background-color: ${COLORS.red};
-    padding: 5px 8px;
+    padding: 5px 9px;
     font-size: 12px;
-    line-height: 12px;
     line-height: 12px;
     border-radius: 20px;
     margin-left: auto;
@@ -195,7 +194,7 @@ const Index = ({ match }) => {
             src={xVector}
             alt="나가기 버튼"
             className="close-icon"
-            onSelect={onSelectFile}
+            // onSelect={onSelectFile}
           />
         </button>
         <p>글 쓰기</p>

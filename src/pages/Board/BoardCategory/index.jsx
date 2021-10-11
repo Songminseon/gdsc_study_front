@@ -39,7 +39,7 @@ const Index = ({ match }) => {
 
   useEffect(() => {
     const categoryNum = match.params.category;
-    setTitle(getCategory(categoryNum));
+    setTitle(getCategory(parseInt(categoryNum)));
     const fetchData = async () => {
       const categoryNum = match.params.category;
       const result = await axios(`/api/board/${categoryNum}`);

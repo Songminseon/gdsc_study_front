@@ -3,7 +3,7 @@ import styled from "styled-components";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-import { COLORS } from "../../../components/Colors";
+import { COLORS } from "@Component/Colors";
 
 const ItemWrapper = styled(Link)`
   cursor: pointer;
@@ -37,7 +37,7 @@ const ItemWrapper = styled(Link)`
 `;
 
 const MessageItem = ({ fromNick, date, title, id }) => {
-  const detailUrl = `/message/${id}`;
+  const detailUrl = `/message/detail/${id}`;
 
   return (
     <ItemWrapper to={detailUrl}>
