@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import Modal from "react-modal";
 
@@ -62,8 +62,6 @@ const LoginWrapper = styled.div`
 `;
 
 const Index = () => {
-  const history = useHistory();
-
   const [userId, setUserId] = useState("");
   const [password, setPassword] = useState("");
 
@@ -115,8 +113,8 @@ const Index = () => {
       {!isFocus && (
         <div>
           <img src={logo} alt="로고" className="logo-area" />
-          <p className="main-text">대학 생활을 더 편하고 즐겁게</p>
-          <p className="sub-text">에브리타임</p>
+          <p className="main-text">GDSC를 즐겁고 편하게</p>
+          <p className="sub-text">GDSC타임</p>
         </div>
       )}
       <div className="input-wrapper">
@@ -138,7 +136,7 @@ const Index = () => {
         />
       </div>
       <div className="button-wrapper">
-        <RedButton text="에브리타임 로그인" onClick={onClickLogin} />
+        <RedButton text="GDSC 로그인" onClick={onClickLogin} />
       </div>
       {!isFocus && (
         <Link to="/signup" className="signup-link">
