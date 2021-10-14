@@ -80,7 +80,7 @@ const Comment = ({
   date,
   content,
   likeNum,
-  setIsOpen,
+  onClickOption,
 }) => {
   const profileImg = !profileUrl ? tempProfile : profileUrl;
 
@@ -89,19 +89,16 @@ const Comment = ({
     if (likeResult.data.data.isLiked) {
       alert("이미 공감한 댓글입니다.");
     } else {
-      const result = await axios({
+      await axios({
         method: "POST",
         url: "/api/like",
         data: {
           category: 2,
           refId: id,
         },
-      });
-      if (result) {
-        window.location.reload();
-      } else {
-        alert("server error");
-      }
+      })
+        .then(() => window.location.reload())
+        .catch(() => alert("server error"));
     }
   };
 
@@ -117,7 +114,7 @@ const Comment = ({
             <img src={likeIcon} alt="좋아요" />
           </button>
           <div className="border-line" />
-          <button onClick={() => setIsOpen(true)}>
+          <button onClick={onClickOption}>
             <img src={optionIcon} alt="옵션" />
           </button>
         </div>

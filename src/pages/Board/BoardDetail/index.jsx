@@ -8,6 +8,7 @@ import BoardDetail from "../../../layout/BoardDetail";
 import Comment from "../../../layout/Comment";
 import WriteComment from "../../../components/Input/WriteComment";
 import CommentOption from "@Component/Modal/CommentOption";
+import MessagePost from "@Pages/Message/Post";
 
 import { formatDate, getCategory } from "../../../hooks/getBoardInfo";
 import { COLORS } from "../../../components/Colors";
@@ -64,6 +65,23 @@ const Index = ({ match }) => {
   const [isOpenError, setIsOpenError] = useState(false);
   const [isOpenOption, setIsOpenOption] = useState(false);
   const [modalText, setModalText] = useState("");
+
+  const [isMessageOn, setIsMessageOn] = useState(false);
+  const [toId, setToId] = useState(0);
+
+  const onClickOption = (id) => {
+    setIsOpenOption(true);
+    setToId(id);
+  };
+
+  const onClickMessage = () => {
+    setIsMessageOn(true);
+  };
+
+  const closeMessage = () => {
+    setIsMessageOn(false);
+    setIsOpenOption(false);
+  };
 
   const onClickLike = async () => {
     const boardId = match.params.id;
@@ -127,54 +145,65 @@ const Index = ({ match }) => {
   }, []);
 
   return (
-    <DetailWrapper>
-      <BoardNavigation title={getCategory(parseInt(boardDetail.categoryId))} />
-      <BoardDetail
-        nick={boardDetail.nickname}
-        date={formatDate(boardDetail.date)}
-        title={boardDetail.title}
-        content={boardDetail.content}
-        like={boardDetail.like}
-        comment={boardDetail.comment}
-      />
-      <button className="like-button arrange-center" onClick={onClickLike}>
-        <img src={likeIcon} alt="공감 아이콘" />
-        <span>공감</span>
-      </button>
-      <div className="comment-wrapper">
-        {commentList.map((item) => (
-          <Comment
-            id={item.id}
-            nick={item.User.nickname}
-            date={formatDate(item.created_at)}
-            content={item.content}
-            likeNum={item.like_num}
-            setIsOpen={setIsOpenOption}
+    <div>
+      {isMessageOn ? (
+        <MessagePost toId={toId} closeMessage={closeMessage} />
+      ) : (
+        <DetailWrapper>
+          <BoardNavigation
+            title={getCategory(parseInt(boardDetail.categoryId))}
           />
-        ))}
-      </div>
-      <div className="write-comment-container">
-        <WriteComment boardId={match.params.id} />
-      </div>
-      <Modal
-        isOpen={isOpenError}
-        onRequestClose={() => setIsOpenError(false)}
-        ariaHideApp={false}
-        style={customStyles}
-        contentLabel="이미 공감한 글"
-      >
-        <ErrorModal text={modalText} onClick={() => setIsOpenError(false)} />
-      </Modal>
-      <Modal
-        isOpen={isOpenOption}
-        onRequestClose={() => setIsOpenOption(false)}
-        ariaHideApp={false}
-        contentLabel="댓글 옵션 모달"
-        style={customStyles}
-      >
-        <CommentOption />
-      </Modal>
-    </DetailWrapper>
+          <BoardDetail
+            nick={boardDetail.nickname}
+            date={formatDate(boardDetail.date)}
+            title={boardDetail.title}
+            content={boardDetail.content}
+            like={boardDetail.like}
+            comment={boardDetail.comment}
+          />
+          <button className="like-button arrange-center" onClick={onClickLike}>
+            <img src={likeIcon} alt="공감 아이콘" />
+            <span>공감</span>
+          </button>
+          <div className="comment-wrapper">
+            {commentList.map((item) => (
+              <Comment
+                id={item.id}
+                nick={item.User.nickname}
+                date={formatDate(item.created_at)}
+                content={item.content}
+                likeNum={item.like_num}
+                onClickOption={() => onClickOption(item.user_id)}
+              />
+            ))}
+          </div>
+          <div className="write-comment-container">
+            <WriteComment boardId={match.params.id} />
+          </div>
+          <Modal
+            isOpen={isOpenError}
+            onRequestClose={() => setIsOpenError(false)}
+            ariaHideApp={false}
+            style={customStyles}
+            contentLabel="이미 공감한 글"
+          >
+            <ErrorModal
+              text={modalText}
+              onClick={() => setIsOpenError(false)}
+            />
+          </Modal>
+          <Modal
+            isOpen={isOpenOption}
+            onRequestClose={() => setIsOpenOption(false)}
+            ariaHideApp={false}
+            contentLabel="댓글 옵션 모달"
+            style={customStyles}
+          >
+            <CommentOption onClick={onClickMessage} />
+          </Modal>
+        </DetailWrapper>
+      )}
+    </div>
   );
 };
 

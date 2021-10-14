@@ -99,7 +99,7 @@ const Index = () => {
     });
     if (result) {
       if (result.data.success) {
-        history.push("/");
+        window.location.replace("/");
       } else {
         setIsOpen(true);
         setErrorText(result.data.message);

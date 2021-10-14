@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
 
 const ModalWrapper = styled.div`
   span {
@@ -13,16 +12,10 @@ const ModalWrapper = styled.div`
   }
 `;
 
-const CommentOption = () => {
-  const history = useHistory();
-
-  const onClickMessage = () => {
-    history.push(`/message/send`);
-  };
-
+const CommentOption = ({ onClick }) => {
   return (
     <ModalWrapper>
-      <button className="option-button" onClick={onClickMessage}>
+      <button className="option-button" onClick={onClick}>
         <span>쪽지 보내기</span>
       </button>
     </ModalWrapper>

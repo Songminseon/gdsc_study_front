@@ -17,3 +17,17 @@ export const customStyles = {
     backgroundColor: "rgba(0, 0, 0, 0.75)",
   },
 };
+
+export const optionStyles = {
+  content: {
+    top: "0px",
+    padding: "0px",
+    borderRadius: "0px",
+    width: "125px",
+    height: "200px",
+    left: "calc(100% - 127px)",
+  },
+  overlay: {
+    backgroundColor: "rgba(0,0,0,0)",
+  },
+};

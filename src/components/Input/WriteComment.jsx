@@ -80,7 +80,7 @@ const WriteComment = ({ boardId }) => {
     if (!comment) {
       setIsOpen(true);
     } else {
-      const result = await axios({
+      await axios({
         method: "POST",
         url: "/api/board/comment",
         data: {
@@ -88,12 +88,9 @@ const WriteComment = ({ boardId }) => {
           content: comment,
           is_secret: isSecret,
         },
-      });
-      if (result) {
-        window.location.reload();
-      } else {
-        alert("server error");
-      }
+      })
+        .then(() => window.location.reload())
+        .catch(() => alert("server error"));
     }
   };
 

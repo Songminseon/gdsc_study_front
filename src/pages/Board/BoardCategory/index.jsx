@@ -76,7 +76,7 @@ const Index = ({ match }) => {
       )}
 
       <div className="fixed-button">
-        <WritePost />
+        <WritePost categoryId={match.params.category} />
       </div>
     </DetailWrapper>
   );

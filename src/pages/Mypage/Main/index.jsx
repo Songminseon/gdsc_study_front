@@ -85,7 +85,7 @@ const Index = () => {
       url: "/api/user/logout",
     });
     if (result) {
-      history.push("/");
+      window.location.replace("/login");
     } else {
       alert("Server Error");
     }

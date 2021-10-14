@@ -36,7 +36,7 @@ const ItemWrapper = styled(Link)`
   }
 `;
 
-const MessageItem = ({ fromNick, date, title, id }) => {
+const MessageItem = ({ fromNick, date, content, id }) => {
   const detailUrl = `/message/detail/${id}`;
 
   return (
@@ -45,7 +45,7 @@ const MessageItem = ({ fromNick, date, title, id }) => {
         <p className="message-nick">{fromNick}</p>
         <p className="message-date">{date}</p>
       </div>
-      <p className="message-title">{title}</p>
+      <p className="message-title">{content}</p>
     </ItemWrapper>
   );
 };

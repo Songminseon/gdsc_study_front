@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import ClipLoader from "react-spinners/ClipLoader";
+import axios from "axios";
+
 import UnderLine from "@Component/Text/UnderLine";
 import BottomNavigaiton from "@Layout/BottomNavigation";
-
-import { dummyMessage } from "@Component/dummyData";
+import { formatDate } from "@Hooks/getBoardInfo";
 import MessageItem from "./components/MessageItem";
+import { COLORS } from "@Component/Colors";
 
 const AlarmWrapper = styled.div`
   padding-top: 48px;
@@ -19,7 +22,17 @@ const AlarmWrapper = styled.div`
 `;
 
 const Index = () => {
-  const messageList = dummyMessage;
+  const [isLoading, setIsLoading] = useState(true);
+  const [messageList, setMessageList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios("/api/message");
+      setMessageList(result.data.data);
+      setIsLoading(false);
+    };
+    fetchData();
+  }, []);
 
   return (
     <AlarmWrapper>
@@ -28,14 +41,20 @@ const Index = () => {
           <UnderLine text="쪽지함" isActive={true} />
         </div>
       </div>
-      {messageList.map((item) => (
-        <MessageItem
-          fromNick={item.nick}
-          date={item.date}
-          title={item.title}
-          id={item.id}
-        />
-      ))}
+      {isLoading ? (
+        <div className="arrange-center-center" style={{ marginTop: "150px" }}>
+          <ClipLoader color={COLORS.red} loading={isLoading} size={50} />
+        </div>
+      ) : (
+        messageList.map((item) => (
+          <MessageItem
+            fromNick="익명"
+            date={formatDate(item.created_at)}
+            content={item.content}
+            id={item.to_id}
+          />
+        ))
+      )}
       <div className="bottom-navigation">
         <BottomNavigaiton activeCategory={3} />
       </div>

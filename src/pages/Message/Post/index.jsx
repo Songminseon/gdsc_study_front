@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import Modal from "react-modal";
 
 import xVector from "@Assets/vector/xVector.svg";
 import { COLORS } from "@Component/Colors";
+import ConfirmModal from "@Component/Modal/ConfirmModal";
+import { customStyles } from "@Component/modalOption";
+import ErrorModal from "@Component/Modal/ErrorModal";
 
 const PostWrapper = styled.div`
   textarea::placeholder {
@@ -44,10 +48,17 @@ const PostWrapper = styled.div`
   }
 `;
 
-const Index = () => {
+const Index = ({ toId, closeMessage }) => {
   const history = useHistory();
 
+  const [isOpenConfirm, setIsOpenConfirm] = useState(false);
+  const [isOpenError, setIsOpenError] = useState(false);
   const [content, setContent] = useState("");
+
+  const onClickErrorConfirm = () => {
+    setIsOpenError(false);
+    setIsOpenConfirm(false);
+  };
 
   const onChangeContent = (e) => {
     setContent(e.target.value);
@@ -62,18 +73,27 @@ const Index = () => {
     history.goBack();
   };
 
-  const writePost = async () => {
-    const result = await axios({
-      method: "POST",
-      url: "/api/message",
-      data: {
-        content: content,
-      },
-    });
-    if (result) {
-      history.push("/message");
+  const sendMessage = async () => {
+    if (!content) {
+      setIsOpenError(true);
     } else {
-      alert("server error");
+      await axios({
+        method: "POST",
+        url: "/api/message",
+        data: {
+          content: content,
+          to_id: toId,
+        },
+      })
+        .then((result) => {
+          if (result.data.success) {
+            closeMessage();
+          } else {
+            alert("나 자신에게 보낼 수 없습니다.");
+            closeMessage();
+          }
+        })
+        .catch(() => alert("server error"));
     }
   };
 
@@ -83,10 +103,10 @@ const Index = () => {
         <button onClick={onClickExit}>
           <img src={xVector} alt="나가기 버튼" className="close-icon" />
         </button>
-        <p>글 쓰기</p>
+        <p>쪽지 보내기</p>
         <button
           className="confirm-button arrange-center-center"
-          onClick={writePost}
+          onClick={() => setIsOpenConfirm(true)}
         >
           완료
         </button>
@@ -100,6 +120,30 @@ const Index = () => {
         onInput={autoGrow}
         wrap="physical"
       />
+      <Modal
+        isOpen={isOpenConfirm}
+        onRequestClose={() => setIsOpenConfirm(false)}
+        ariaHideApp={false}
+        contentLabel="전송 확인"
+        style={customStyles}
+      >
+        <ConfirmModal
+          head="상대방에게 익명으로 쪽지가 보내집니다. 쪽지를 보내시겠습니까?"
+          leftBtn="취소"
+          leftBtnFunc={() => setIsOpenConfirm(false)}
+          rightBtn="전송"
+          rightBtnFunc={sendMessage}
+        />
+      </Modal>
+      <Modal
+        isOpen={isOpenError}
+        onRequestClose={() => setIsOpenError(false)}
+        ariaHideApp={false}
+        contentLabel="전송 에러"
+        style={customStyles}
+      >
+        <ErrorModal text="내용을 입력해주세요." onClick={onClickErrorConfirm} />
+      </Modal>
     </PostWrapper>
   );
 };

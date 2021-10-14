@@ -34,7 +34,7 @@ const ItemWrapper = styled.div`
   }
 `;
 
-const MessageDetailItem = ({ isFrom, date, contents }) => {
+const MessageDetailItem = ({ isFrom, date, content }) => {
   const categoryText = isFrom ? "받은 쪽지" : "보낸 쪽지";
 
   return (
@@ -43,7 +43,7 @@ const MessageDetailItem = ({ isFrom, date, contents }) => {
         <p className="message-nick">{categoryText}</p>
         <p className="message-date">{date}</p>
       </div>
-      <p className="message-contents">{contents}</p>
+      <p className="message-contents">{content}</p>
     </ItemWrapper>
   );
 };
