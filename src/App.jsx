@@ -26,12 +26,21 @@ import AuthDetail from "./pages/Mypage/AuthDetail";
 import NotFound from "@Pages/NotFound";
 
 import { COLORS } from "@Component/Colors";
+import AuthRoute from "@Hooks/AuthRoute";
+import LoginRoute from "@Hooks/PrivateRoute";
+
+import WholeLoading from "@Component/WholeLoading";
 
 const App = () => {
-  const [isLogin, setIsLogin] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
+  const [isShowLoading, setIsShowLoading] = useState(true);
 
   useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsShowLoading(false);
+      // console.log("cut!");
+    }, 500);
+
     const fetchLogin = async () => {
       const result = await axios("/api/user");
 
@@ -40,54 +49,42 @@ const App = () => {
       } else {
         setIsLogin(false);
       }
-      setIsLoading(false);
     };
     fetchLogin();
+    return clearTimeout(() => timeout);
   }, []);
 
   return (
     <BrowserRouter>
-      {isLoading ? (
-        <div className="arrange-center-center" style={{ marginTop: "150px" }}>
-          <ClipLoader color={COLORS.red} />
-        </div>
+      {isShowLoading ? (
+        <WholeLoading />
       ) : (
         <Switch>
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={Signup} />
+          <LoginRoute authenticated={isLogin} exact path="/login" component={Login} />
+          <LoginRoute authenticated={isLogin} exact path="/signup" component={Signup} />
 
-          {isLogin ? (
-            <Switch>
-              <Route exact path="/" component={Main} />
-              <Route exact path="/search" component={Search} />
-              <Route exact path="/setting" component={Setting} />
+          <AuthRoute authenticated={isLogin} exact path="/" component={Main} />
+          <AuthRoute authenticated={isLogin} exact path="/search" component={Search} />
+          <AuthRoute authenticated={isLogin} exact path="/setting" component={Setting} />
 
-              <Route exact path="/board" component={Board} />
-              <Route
-                exact
-                path="/board/list/:category"
-                component={BoardCategory}
-              />
-              <Route exact path="/board/detail/:id" component={BoardDetail} />
-              <Route exact path="/board/post/:id" component={BoardPost} />
+          <AuthRoute authenticated={isLogin} exact path="/board" component={Board} />
+          <AuthRoute
+            authenticated={isLogin}
+            path="/board/list/:category"
+            component={BoardCategory}
+          />
+          <AuthRoute authenticated={isLogin} path="/board/detail/:id" component={BoardDetail} />
+          <AuthRoute authenticated={isLogin} path="/board/post/:id" component={BoardPost} />
 
-              <Route exact path="/message" component={Messsage} />
-              <Route
-                exact
-                path="/message/detail/:id"
-                component={MessageDetail}
-              />
+          <Route exact path="/message" component={Messsage} />
+          <Route exact path="/message/detail/:id" component={MessageDetail} />
 
-              <Route exact path="/mypage" component={Mypage} />
-              <Route exact path="/mypage/edit" component={Edit} />
-              <Route exact path="/mypage/auth" component={Auth} />
-              <Route exact path="/mypage/auth/detail" component={AuthDetail} />
+          <Route exact path="/mypage" component={Mypage} />
+          <Route exact path="/mypage/edit" component={Edit} />
+          <Route exact path="/mypage/auth" component={Auth} />
+          <Route exact path="/mypage/auth/detail" component={AuthDetail} />
 
-              <Route path="*" component={NotFound} />
-            </Switch>
-          ) : (
-            <Redirect to="/login" />
-          )}
+          <Route path="*" component={NotFound} />
         </Switch>
       )}
     </BrowserRouter>

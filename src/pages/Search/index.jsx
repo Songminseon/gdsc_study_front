@@ -117,7 +117,7 @@ const Index = () => {
         data: {
           word: keyword,
         },
-      });
+      }).catch((err) => alert(err));
 
       if (result) {
         setResultList(result.data.data);
@@ -154,11 +154,7 @@ const Index = () => {
       <div className="result-container">
         {isGuideOn ? (
           <div className="arrange-center-center guide-wrapper">
-            <img
-              src={searchIcon}
-              alt="검색가이드"
-              className="search-icon arrange-center-center"
-            />
+            <img src={searchIcon} alt="검색가이드" className="search-icon arrange-center-center" />
             <p className="result-text">전체 게시판의 글을 검색해보세요</p>
           </div>
         ) : resultList.length === 0 ? (

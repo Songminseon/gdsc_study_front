@@ -42,7 +42,7 @@ const Index = ({ match }) => {
     setTitle(getCategory(parseInt(categoryNum)));
     const fetchData = async () => {
       const categoryNum = match.params.category;
-      const result = await axios(`/api/board/${categoryNum}`);
+      const result = await axios(`/api/board?category=${categoryNum}`);
       setBoardList(result.data.data);
       setIsLoading(false);
     };

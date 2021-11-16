@@ -10,6 +10,8 @@ import RealTimeBoardList from "./components/RealTimeBoardList";
 import HotBoardList from "./components/HotBoardList";
 import MainButton from "../../components/Button/MainButton";
 
+import axios from "axios";
+
 const MainWrapper = styled.div`
   width: 100%;
   height: 100%;
@@ -76,6 +78,26 @@ const Index = () => {
       });
     }
   }, []);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const result = await axios("/api/user/test").catch((err) => alert(err.response.data.message));
+  //     console.log(result.data);
+  //   };
+  //   fetchData();
+  // }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await axios("/api/user/test");
+        console.log(result.data.data);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  });
 
   const onClickSetting = () => {
     history.push("/setting");

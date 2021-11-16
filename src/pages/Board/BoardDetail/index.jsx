@@ -67,11 +67,11 @@ const Index = ({ match }) => {
   const [modalText, setModalText] = useState("");
 
   const [isMessageOn, setIsMessageOn] = useState(false);
-  const [toId, setToId] = useState(0);
+  const [commentId, setCommentId] = useState(0);
 
   const onClickOption = (id) => {
     setIsOpenOption(true);
-    setToId(id);
+    setCommentId(id);
   };
 
   const onClickMessage = () => {
@@ -147,7 +147,7 @@ const Index = ({ match }) => {
   return (
     <div>
       {isMessageOn ? (
-        <MessagePost toId={toId} closeMessage={closeMessage} />
+        <MessagePost commentId={commentId} closeMessage={closeMessage} />
       ) : (
         <DetailWrapper>
           <BoardNavigation
@@ -173,7 +173,7 @@ const Index = ({ match }) => {
                 date={formatDate(item.created_at)}
                 content={item.content}
                 likeNum={item.like_num}
-                onClickOption={() => onClickOption(item.user_id)}
+                onClickOption={() => onClickOption(item.id)}
               />
             ))}
           </div>

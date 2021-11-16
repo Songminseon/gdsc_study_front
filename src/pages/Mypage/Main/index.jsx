@@ -84,7 +84,7 @@ const Index = () => {
       method: "GET",
       url: "/api/user/logout",
     });
-    if (result) {
+    if (!result.data.success) {
       window.location.replace("/login");
     } else {
       alert("Server Error");

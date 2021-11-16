@@ -48,7 +48,7 @@ const PostWrapper = styled.div`
   }
 `;
 
-const Index = ({ toId, closeMessage }) => {
+const Index = ({ commentId, closeMessage }) => {
   const history = useHistory();
 
   const [isOpenConfirm, setIsOpenConfirm] = useState(false);
@@ -82,7 +82,7 @@ const Index = ({ toId, closeMessage }) => {
         url: "/api/message",
         data: {
           content: content,
-          to_id: toId,
+          comment_id: commentId,
         },
       })
         .then((result) => {
