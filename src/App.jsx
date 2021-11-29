@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import axios from "axios";
-import { ClipLoader } from "react-spinners";
 
 import Login from "./pages/Account/Login";
 import Signup from "./pages/Account/SignUp";
@@ -24,8 +23,6 @@ import Auth from "./pages/Mypage/Auth";
 import AuthDetail from "./pages/Mypage/AuthDetail";
 
 import NotFound from "@Pages/NotFound";
-
-import { COLORS } from "@Component/Colors";
 import AuthRoute from "@Hooks/AuthRoute";
 import LoginRoute from "@Hooks/PrivateRoute";
 
@@ -39,7 +36,7 @@ const App = () => {
     const timeout = setTimeout(() => {
       setIsShowLoading(false);
       // console.log("cut!");
-    }, 500);
+    }, 1000);
 
     const fetchLogin = async () => {
       const result = await axios("/api/user");

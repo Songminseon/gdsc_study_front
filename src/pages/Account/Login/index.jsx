@@ -87,24 +87,24 @@ const Index = () => {
   };
 
   const onClickLogin = async () => {
-    const result = await axios({
-      method: "POST",
-      url: "/api/user/login",
-      data: {
-        user_id: userId,
-        password: password,
-      },
-    });
-    if (result) {
+    try {
+      const result = await axios({
+        method: "POST",
+        url: "/api/user/login",
+        data: {
+          user_id: userId,
+          password: password,
+        },
+      });
+
       if (result.data.success) {
         window.location.replace("/");
       } else {
         setIsOpen(true);
         setErrorText(result.data.message);
       }
-    } else {
-      setIsOpen(true);
-      setErrorText("invalid");
+    } catch {
+      alert("server error");
     }
   };
 
